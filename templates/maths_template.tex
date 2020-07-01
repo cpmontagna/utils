@@ -1,0 +1,21 @@
+\documentclass[fleqn,11pt]{article}
+\setlength{\parindent}{0em}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[cdot,amssymb]{SIunits}
+\usepackage{polynom}
+
+% Cauchy principal value integral
+\newlength{\intwidth}
+\DeclareRobustCommand{\fpint}[2]
+   {\mathop{%
+      \text{%
+        \settowidth{\intwidth}{$\int$}%
+        \makebox[0pt][l]{\makebox[\intwidth]{$-$}}%
+        $\int_{#1}^{#2}$}}}
+ 
+\begin{document}
+
+\end{document} 

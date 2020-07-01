@@ -1,0 +1,19 @@
+\documentclass[fleqn,11pt]{article}
+
+\usepackage[merge]{natbib}
+
+\begin{document}
+\bibliographystyle{plainnat} % unsrtnat to order reference list as
+                             % they appear in text
+\bibpunct{(}{)}{;}{a}{,}{,}
+
+\citet{Sparks1977}
+%\citet{Montagna2015}
+\citet{Moune2012}
+
+\begingroup                        % no title
+\renewcommand{\section}[2]{}       % 
+\bibliography{/home/montagna/TOURO/science/bibliography/biblio} 
+\endgroup                          % 
+
+\end{document} 

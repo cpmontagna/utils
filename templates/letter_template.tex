@@ -1,0 +1,57 @@
+\documentclass{letter}
+
+\usepackage{enumerate}
+\usepackage[dvips]{graphics}
+\usepackage[dvips]{graphicx}
+\usepackage[usenames]{color}
+\usepackage{SIunits}
+\usepackage{listings}
+\usepackage{url}
+\usepackage{fullpage}
+
+% from address ragged left, to address ragged right
+\makeatletter
+\def\opening#1{\ifx\@empty\fromaddress
+  \thispagestyle{firstpage}
+    {\raggedleft\@date\par}
+  \else  % home address
+    \thispagestyle{empty}
+    {\noindent\let\\\cr\halign{##\hfil\cr\ignorespaces
+      \fromaddress \cr\noalign{\kern 2\parskip}
+      \@date\cr}\par}
+  \fi
+  \vspace{2\parskip}
+  {\raggedleft \toname \\ \toaddress \par}%
+  \vspace{2\parskip}
+  #1\par\nobreak}
+\makeatother
+
+% no date
+\date{}
+
+\signature{\vspace{-1cm}
+Paolo Papale}
+
+\address{Istituto Nazionale di Geofisica e Vulcanologia, sezione di
+  Pisa \\
+via Della Faggiola, 32 \\
+56126 Pisa \\
+Italy}
+
+\begin{document}
+ 
+\begin{letter}
+{James A. Tyburczy \\
+Editor, Geochemistry Geophysics Geosystems \\ 
+Arizona State University \\
+School of Earth \& Space Exploration\\ 
+Tempe, AZ 85287–1404}
+
+\opening{Dear Dr. Tyburczy,}
+
+\vspace{1cm}
+\closing{Sincerely,}
+
+\end{letter}
+
+\end{document}

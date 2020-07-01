@@ -1,0 +1,194 @@
+\documentclass[a4paper,notitlepage]{article}
+\setlength{\parindent}{0em}
+
+\usepackage{SIunits}
+% \usepackage{natbib}
+% \usepackage{authblk}
+% \usepackage[usenames]{color}
+% \usepackage[T1]{fontenc}
+% \usepackage[Q=yes]{examplep}
+% \usepackage{booktabs} % linee orizzontali in tabelle
+% \usepackage{ctable}   % tabelle con note, includes booktabs
+% \usepackage[usenames,dvipsnames]{pstricks}  % latexdraw
+% \usepackage{epsfig}                         %   
+% \usepackage{pst-grad} % For gradients       %
+% \usepackage{pst-plot} % For axes            % latexdraw
+% \usepackage{graphicx}
+% \usepackage{import}   % to import svg files from another folder
+% \usepackage{amsthm}   % theorems
+% \usepackage{amsmath}
+
+\begin{document}
+% \bibliographystyle{plainnat} 
+% \bibpunct{(}{)}{;}{a}{,}{,}
+
+\begin{center}
+Review of \lq\lq THE THERMAL REGIME OF THE CAMPI FLEGREI MAGMATIC SYSTEM
+RECONSTRUCTED THROUGH 3D NUMERICAL SIMULATIONS.\rq\rq by
+V. Di Renzo et al.
+\end{center}
+
+\vspace{1cm}
+
+The manuscript presents a thermal model for the
+Campi Flegrei magmatic system in the past $\unit{184}{ka}$. The
+results provide the space-time temperature evolution in the Campi
+Flegrei caldera region as a consequence of the main caldera-forming
+eruptions as well as successive magmatic injections and eruptions, based on
+state-of-the-art knowledge of evolution of the volcano
+plumbing system. The results obtained are in broad agreement with
+temperature data obtained from borehole drills, heat flow measurements
+as well as seismic estimations of temperatures for the brittle-ductile
+transition. 
+
+The main objectives of the study are clear and the paper is well
+organized, though it suffers from frequent repetitions of some
+concepts, which is both annoying and misleading. The results obtained
+are convincing but discussion on other possible configurations
+for the Campi Flegrei plumbing system is lacking, especially in consideration
+of the relative
+simplicity of the physical model; more
+details on the modelling methodology seem to be required, as well as
+a more thorough illustration of the results obtained, specifically in
+terms of time and space evolution in the three-dimensional
+domain. Therefore, I suggest publication only after major revisions.
+
+Major comments:
+\begin{enumerate}
+  \item The authors claim that their model is able to provide constraints on
+    the architecture of the magmatic system at Campi Flegrei (lines 149 - 154;
+    lines 503 - 506).
+    On the contrary, they seem to use constraints obtained from geophysics and
+    petrology
+    to design their system and verify that it is one possible solution that
+    matches the observed data in terms of measured temperatures. Their claim can
+    be justified only if they are able to show that starting from different
+    assumptions (e.g., different size/location of small reservoirs after NYT
+    erution) they obtain significantly different results.
+  \item It would
+    be very interesting to see how temperature varies in time, especially as a
+    consequence of new magma injections. This is somehow
+    shown in Figures 4 and 5, but providing
+    time series of temperature at various locations would be much appreciated.
+    The time scales for temperatures to vary in the subsurface are not easy to
+    grasp form the manuscript if present at all, while they seem to be one of
+    the key factors in determining the overall evolution of the system. A
+    (possibly 3D) movie of the evolution of temperature in the system
+    could significantly improve the manuscript impact.
+  \item There is a very long review of previous work and petrological data in
+    Section 1.1. I understand that this is the base of the model developed by
+    the authors; nonetheless, this part together with other very similar
+    descriptions in Sections 3, 4 and 5 makes up most of the manuscript, at the
+    expenses of a more detailed description of the model and a much needed
+    sensitivity analysis on the space-time distribution of magmatic intrusions.
+  \item There is no figure detailing the three-dimensional structure of the
+    model, and there is no hint as to how the model looks in the third
+    dimension. As the results obtained from 2D modelling are different
+    from those obtained in this manuscript, this seems to be quite an important
+    point to elucidate.
+  \item The authors should describe how Heat3D deals with convection within
+    hydrothermal systems, and within magmatic bodies if relevant to their model
+    (see below).
+  \item The authors claim that model d) in Figure 6, i.e. that obtained by
+    considering active hydrothermal convection from the A-MS eruption up to
+    $\unit{2500}{ka}$ BP, is a better fit to the measured geothermal gradients.
+    This statement needs to be sustained by a measure of the goodness of fit, as
+    Figure 6 alone is not enough to support it. Moreover, I don't understand why
+    AGIP borehole temperature data from 1987 AD are compared to simulation
+    results
+    referring to pre-Monte Nuovo (1538 AD). They should be compared to results
+    from models a) to d) (different duration of hydrothermal system convection)
+    prolonged till after the last eruption. I also wonder how their results
+    would differ if no hydrothermal convection is considered at all.
+  \item Surface deformation is not considered in the model. The assumption is
+    justified but it has to be stated.
+  \item Figure 5d: I seem to understand that magma chambers are connected
+    through dikes to the deep reservoir; is this not the case here? Why?
+\end{enumerate}
+
+A few minor remarks:
+\begin{itemize}
+  \item The authors do not describe how they deal with shallow magma reservoirs
+    emplacement. I suspect it is instantaneous, but it must be stated and
+    justified. The authors also need to state whether convection within
+    magmatic bodies is
+    taken into account or not, and why. Moreover, do smaller eruptions after NYT
+    empty the respective magma chambers or not? Why?
+  \item At line 110, I suspect the authors mean P-SV velocity conversion when
+    they write PSv velocities.
+  \item Lines 149 - 154: the authors seem to state that mass and momentum
+    conservation equations can be satisfied by a larger domain of solutions
+    than the energy conservation equation, which they solve. This statement
+    needs to be justified; there is no evidence in the paper to support it.
+  \item Lines 250 - 252: it is not clear what are the 100 mesh files cited here.
+    How and why are they different? What are the different results obtained?
+  \item Lines 263 - 301: I suggest this detailed information on how petrological
+    constraints where incorporated into the model is included in the Results
+    section (Section 4), where it is largely repeated. At the end of point 8, a
+    reference
+    to Figure 2 would be beneficial.
+  \item Lines 289 - 291: it seems that both the resident phonolitic magma and
+    the trachytic one entering the system are at $\unit{6}{\kilo\metre}$ depth.
+    I'm not sure this is correct.
+  \item I suggest replacing the reference to Longo et al., 2006 with the more
+    relevant Montagna
+    et al.,
+    \lq Time scales of mingling in shallow magmatic reservoirs\rq, 2015 (or
+    adding the latter).
+  \item Lines 314 - 317: is the initial temperature gradient of
+    $\unit{20}{\degreecelsius}$ assumed or is it obtained by letting the deep
+    reservoir cool?
+  \item Lines 416 - 445: this is pretty much a repetition of what had been
+    written in Section 4. Results. I suggest a merge.
+  \item Lines 448 - 455: I don't see the point of this discussion on the grid
+    location of the boreholes. Figure 8 shows a very large temperature
+    difference in a narrow region at depth (e.g. panel a), a
+    $\unit{200}{\degreecelsius}$ variation in $\unit{400}{\metre}$). It would
+    be interesting to have the boreholes indicated in Figure 7a), to understand
+    the reasons behind this large variation.
+  \item I suggest reducing the size of Section 6. Conclusions, given also that
+    most of its content is a repetition.
+  \item Figure 1: the caption should state what the coloured dots are.
+  \item Figure 2: axes and their labels are very hard to discern. Need also to
+    add units.
+  \item Figure 3: the profile is at the center of the caldera, I guess, but this
+    should be stated in the caption.
+  \item Figures 4 and 5: as for Figure 2, axes and labels are too small to be
+    readable and units of measurements are not clear (albeit indicated) -
+    increasing font size should suffice. The same holds for the temperature
+    colorbar. In Figure 5, what is the meaning of the upward arrow in the
+    middle of the domain?
+  \item Figure 9: what is the $x$ axis? Horizontal distance from what?
+\end{itemize}
+
+I suggest a thorough check for English language, typos and spelling. Some
+examples:
+\begin{itemize}
+  \item line 30: material is uncountable;
+  \item line 36 and elsewhere: I have never heard of magma chamber
+    refreshing; maybe rejuvenation would be more appropriate;
+  \item line 48: studies by instead of studies of;
+  \item line 61: volcanic areas;
+  \item line 65: This is the case - which case? Rephrase;
+  \item line 84: whose instead of which;
+  \item line 132: depths larger/greater than;
+  \item line 145: different eruptions;
+  \item line 163: what does cal stand for?;
+  \item line 170: of-depths should be of depths;
+  \item line 179: reservoirs;
+  \item line 367: on the basis of their results;
+  \item line 456 last, not latest;
+  \item lines 113 - 115; 121 - 122; 246 - 249: awkward phrasing, hard to
+    decipher.
+  \item Reference formatting should also be carefully checked, and they must be
+    ordered chronologically in the text as per the Guide for Authors (e.g.
+    lines 70, 72, 77; lines 624, 640; line 831, link not working).
+\end{itemize}
+
+\vspace{1cm}
+
+With best wishes, \\
+Chiara P. Montagna, INGV Pisa.
+
+%\bibliography{/home/montagna/TOURO/science/bibliography/biblio} 
+\end{document}

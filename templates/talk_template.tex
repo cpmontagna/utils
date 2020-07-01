@@ -1,0 +1,252 @@
+\documentclass[compress,green]{beamer}
+\mode<presentation>
+
+%\usepackage{subfigure}
+%\usepackage{multicol}
+%\usepackage{amsmath}
+%\usepackage{epsfig}
+%\usepackage{graphicx}
+%\usepackage[all,knot]{xy}
+%\xyoption{arc}
+%\usepackage{url}
+\usepackage{multimedia}
+\usepackage[italian]{babel}
+%\usepackage{movie15}
+%\usepackage{hyperref}
+
+\usetheme{Madrid} 
+\usecolortheme{seagull}
+\useinnertheme{rounded}
+
+\definecolor{Red}{rgb}{1,0,0}
+\definecolor{Blue}{rgb}{0,0,1}
+%\definecolor{Green}{rgb}{0,1,0}
+\definecolor{magenta}{rgb}{1,0,.6}
+\definecolor{lightblue}{rgb}{0,.5,1}
+\definecolor{lightred}{rgb}{1,0.2,0.2}
+%\definecolor{lightpurple}{rgb}{.6,.4,1}
+%\definecolor{gold}{rgb}{.6,.5,0}
+%\definecolor{orange}{rgb}{1,0.4,0}
+%\definecolor{hotpink}{rgb}{1,0,0.5}
+%\definecolor{newcolor2}{rgb}{.5,.3,.5}
+%\definecolor{newcolor}{rgb}{0,.3,1}
+%\definecolor{newcolor3}{rgb}{1,0,.35}
+%\definecolor{darkgreen1}{rgb}{0, .35, 0}
+%\definecolor{darkgreen}{rgb}{0, .6, 0}
+\definecolor{darkred}{rgb}{.75,0,0}
+%\xdefinecolor{olive}{cmyk}{0.64,0,0.95,0.4}
+%\xdefinecolor{purpleish}{cmyk}{0.75,0.75,0,0}
+
+\setbeamertemplate{footline}{}
+
+\title{\textcolor{darkred}{A forward modeling approach to relate geophysical observables at active volcanoes to deep magma dynamics.}}
+\author{\underline{C. P. Montagna}$^1$, A. Longo$^1$, P. Papale$^1$, M. Vassalli$^2$, G. Saccorotti$^1$, A. Cassioli$^3$}
+\institute{1. Istituto Nazionale di Geofisica e Vulcanologia, Pisa, Italy\\
+2. School of Geological Sciences, University College Dublin, Ireland\\
+3. Dipartimento di Sistemi e Informatica, Università di Firenze, Italy}
+\date[AGU Fall Meeting 2010]{AGU Fall Meeting 2010 \\ San Francisco \\ December 17, 2010}
+
+\begin{document}
+
+\frame{
+  \titlepage
+    }
+
+\frame{
+\frametitle{Rationale}
+\begin{center}
+\textcolor{Red}{Mass movements} and associated \textcolor{Red}{stress changes} in volcanic systems translate into variations of geophysical quantities commonly measured at the surface: \\
+\uncover<2->{\textcolor{magenta}{seismicity, ground displacement} and \textcolor{magenta}{gravity changes}.}
+\uncover<3->{
+\begin{block}{Understanding signals at active volcanoes means gaining the capability to \lq\lq look into\rq\rq an active volcano:}
+\begin{itemize}
+\item improvement of the knowledge on volcano physics;
+\item identification of the short-term precursors to eruptions.
+\end{itemize}
+\end{block}
+}
+\end{center}
+}
+
+\frame{
+\frametitle{Method}
+\begin{center}
+\begin{columns}
+\column{0.7\textwidth}
+\includegraphics[height=3.75cm]{../media/figures/dynamics.png}
+\column{0.3\textwidth}
+simulation of magma movements:\\ 
+fluid dynamical code \texttt{GALES} {\tiny(Longo et al. 2006)}
+\end{columns}
+\pause
+pressure variations resulting from magma motion are used as synthetic sources of ground displacement
+\pause
+\begin{columns}
+\column{0.6\textwidth}
+\includegraphics[height=3cm]{../media/figures/displacement.png}
+\column{0.4\textwidth}
+elastic wave propagation in rocks: \\
+\begin{itemize}
+\item analytical solutions in an homogeneous infinite medium
+\item elasto-dynamics code \texttt{ELM} {\tiny(O'Brien and Bean 2004)}
+\end{itemize}
+\end{columns}
+\end{center}
+}
+
+\frame{
+\frametitle{Simulated systems}
+\includegraphics[height=0.4\textheight]{../media/figures/cf_all.png}
+\pause
+\includegraphics[height=0.4\textheight]{../media/figures/e13.png}
+\pause
+\begin{block}{}
+\begin{itemize}
+\item mingling magmas
+\item no crystals
+\item isothermal
+\item exsolution law: Papale et al. 2006
+\item viscosity: Giordano et al. 2008
+\end{itemize}
+\end{block}
+}
+
+\frame{
+\frametitle{Magma dynamics: Campi Flegrei}
+\begin{columns}
+\column{0.5\textwidth}
+\movie{\includegraphics[width=0.9\textwidth]{../media/figures/comp0_all1.png}}{./comp_all1.avi}
+\column{0.5\textwidth}
+\movie{\includegraphics[width=0.9\textwidth]{../media/figures/comp0_all2.jpg}}{./comp_all2.avi}
+\end{columns}
+}
+
+\frame{
+\frametitle{Pressure variations}
+\includegraphics[height=0.9\textheight]{../media/figures/deltap_all1.png}
+}
+
+\frame{
+\frametitle{Pressure variations - upper chamber}
+\begin{columns}
+\column{0.7\textwidth}
+\textcolor{Blue}{Horizontal} vs \textcolor{Red}{vertical} chamber
+\includegraphics[width=\textwidth]{../media/figures/deltap_cf.jpg}
+\column{0.3\textwidth}
+\includegraphics[height=0.4\textheight]{../media/figures/deltap_all1.jpg}\\
+\includegraphics[height=0.4\textheight]{../media/figures/deltap_all2.jpg}
+\end{columns}
+}
+
+\frame{
+\frametitle{Ground deformation}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{center}
+\textcolor{Blue}{Horizontal chamber}
+\includegraphics[height=0.4\textheight]{../media/figures/cf_all1_disp.png}\\
+\includegraphics[height=0.4\textheight]{../media/figures/cf_all1_spectra.png}
+\end{center}
+\column{0.5\textwidth}
+\begin{center}
+\textcolor{Red}{Vertical chamber}
+\includegraphics[height=0.4\textheight]{../media/figures/cf_all2_disp.jpg}\\
+\includegraphics[height=0.4\textheight]{../media/figures/cf_all2_spectra.jpg}
+\end{center}
+\end{columns}
+rich in low frequencies
+}
+
+\frame{
+\frametitle{Gravity changes}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{center}
+\textcolor{Blue}{Horizontal chamber}\\
+\includegraphics[height=0.4\textheight]{../media/figures/dens_all1.jpg}\\
+\includegraphics[height=0.4\textheight]{../media/figures/gravity_all1.jpg}
+\end{center}
+\column{0.5\textwidth}
+\begin{center}
+\textcolor{Red}{Vertical chamber}\\
+\includegraphics[height=0.4\textheight]{../media/figures/dens_all2.jpg}\\
+\includegraphics[height=0.4\textheight]{../media/figures/gravity_all2.jpg}
+\end{center}
+\end{columns}
+}
+
+\frame{
+\frametitle{Magma dynamics: Etna}
+\begin{center}
+\movie{\includegraphics[totalheight=0.9\textheight]{../media/figures/comp0_etna.png}}{./comp_e13.avi}
+\end{center}
+}
+
+\frame{
+\frametitle{Ground displacement: low frequencies}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{../media/figures/etna_disp.png}
+\vspace{0.5cm}
+highest energy content at \\
+periods around $100\unit{s}$
+\end{center}
+\column{0.5\textwidth}
+\begin{center}
+analytical solution:\\
+Green's function integration\\
+\vspace{1cm}
+\includegraphics[width=\textwidth]{../media/figures/etna_spectra.png}
+\end{center}
+\end{columns}
+}
+
+\frame{
+\frametitle{Ground displacement: seismic frequency range}
+\begin{columns}
+\column{0.5\textwidth}
+\vspace{0.5cm}
+\begin{center}
+maximum displacement in seismic range $\sim 10\unit{\mu m}$ \\
+\vspace{1cm}
+patterns of rock displacements\\
+deformed by heteorgeneities
+\end{center}
+\column{0.5\textwidth}
+\includegraphics[width=\textwidth]{../media/figures/etna_disp_elm.png}
+\end{columns}
+\includegraphics[width=\textwidth]{../media/figures/etna_snapshots.png}
+}
+
+\frame{
+\frametitle{Concluding remarks}
+\begin{center}
+\begin{itemize}
+\item new magma entering shallow chambers rapidly mixes up with the resident magma and looses its identity, over the time scale of hours
+\item the evolution of pressure can be very complex, with regions of the magmatic system undergoing overall pressure decrease or increase
+\item pressure oscillations emerge, having periods from tens of seconds to hours and amplitude decreasing with increasing oscillation frequency
+\item ground oscillations with periods of tens to hundreds of seconds (ULP) emerge as diagnostic of magma convection and mixing in magmatic reservoirs
+\end{itemize}
+\end{center}
+\pause
+\includegraphics[width=0.9\textwidth]{../media/figures/conclusion.png}
+}
+
+\frame{
+\begin{center}
+\huge{Thank you!}
+\end{center}
+}
+
+\end{document}
+
+================ schema ===================
+1. introduzione generale, dicendo anche che sempre ho magma buoyant che risale!!
+2. sistemi simulati: e13 [elm], all1 e all2 [oblate - prolate]
+3. differenti depth, size, composition, gas content
+4. ULP e tutto quanto
+
+=========== TODO =========================
+0. cambiare figure deltap - mel
+1. figure giuste spettri e ground disp all2 - mel

@@ -1,0 +1,167 @@
+\documentclass[a0,portrait]{a0poster}
+
+\pagestyle{empty}
+\setcounter{secnumdepth}{0}
+
+\usepackage[absolute]{textpos}
+\usepackage{graphics,wrapfig,times}
+\usepackage{color}
+\usepackage[cdot,amssymb]{SIunits}
+
+\definecolor{DarkBlue}{rgb}{0.1,0.1,0.5}
+\definecolor{Red}{rgb}{0.9,0.0,0.1}
+
+\let\Textsize\normalsize
+\def\Head#1{\noindent\hbox to \hsize{\hfil{\LARGE\color{DarkBlue} #1}}\bigskip}
+\def\LHead#1{\noindent{\LARGE\color{DarkBlue} #1}\smallskip}
+\def\Subhead#1{\noindent{\large\color{DarkBlue} #1}}
+\def\Title#1{\noindent{\VeryHuge\color{Red} #1}}
+
+% Set up the grid
+%
+% Note that [40mm,40mm] is the margin round the edge of the page --
+% it is _not_ the grid size. That is always defined as 
+% PAGE_WIDTH/HGRID and PAGE_HEIGHT/VGRID. In this case we use
+% 15 x 25. This gives us a wide central column for text (7 grid
+% spacings) and two narrow columns (3 each) at each side for 
+% pictures, separated by 1 grid spacing.
+%
+% Note however that texblocks can be positioned fractionally as well,
+% so really any convenient grid size can be used.
+%
+\TPGrid[40mm,40mm]{15}{25}  % 1 - 6 - 1 - 6 - 1 Columns
+
+\parindent=0pt
+\parskip=0.5\baselineskip
+
+\begin{document}
+
+% Understanding textblocks is the key to being able to do a poster in
+% LaTeX. In
+%
+%    \begin{textblock}{wid}(x,y)
+%    ...
+%    \end{textblock}
+%
+% the first argument gives the block width in units of the grid
+% cells specified above in \TPGrid; the second gives the (x,y)
+% position on the grid, with the y axis pointing down.
+
+% You will have to do a lot of previewing to get everything in the 
+% right place.
+
+% This gives good title positioning for a portrait poster.
+% Watch out for hyphenation in titles - LaTeX will do it
+% but it looks awful.
+\begin{textblock}{12}(3,0)
+\baselineskip=3\baselineskip \Title{Magma flow between summit and Pu`u
+  `\=O`\=o at   K\={\i}lauea Volcano, Hawai`i}
+\end{textblock}
+
+\begin{textblock}{12}(3,2.5)
+\LHead{C. P. Montagna$^1$, H. M. Gonnermann$^2$}
+\vspace{0.3cm}\\
+\Subhead{$^1$Istituto Nazionale di Geofisica e Vulcanologia, Pisa,
+  Italy}
+\Subhead{$^2$Department of Earth Science, Rice University, Houston, TX,
+U.S.A.}
+\end{textblock}
+
+\begin{textblock}{2}(14.7,0)
+\resizebox{2\TPHorizModule}{!}{\includegraphics{figures/RiceLogo.eps}}
+\end{textblock}
+
+\begin{textblock}{2}(0.3,0)
+\resizebox{2\TPHorizModule}{!}{\includegraphics{figures/logo_INGV.eps}}
+\end{textblock}
+
+\begin{textblock}{14.6}(0.3,3.6)
+\begin{center}
+  \LHead{Introduction}
+  The early stages (1983 – 1985) of the Pu`u `\=O`\=o–Kupaianaha
+  eruption of K\={\i}lauea volcano, Hawai`i, were characterized by
+  episodic eruptive events, consisting of lava fountains up to
+  $\unit{400}{\metre}$ high, from the Pu`u `\=O`\=o vent on the east
+  rift zone. Deflation was recorded by tiltmeters at the vent in correspondence with eruptive periods, while gradual re–inflation accompanied repose periods. This same ground deformation pattern was recorded at the summit, albeit with a time delay of several hours.
+  
+\end{center}
+\end{textblock}
+
+\begin{textblock}{8}(0.3,7)
+\resizebox{8\TPHorizModule}{!}{\includegraphics{figures/all_episodes.eps}}
+\end{textblock}
+
+\begin{textblock}{6}(8.5,7.5)
+  \begin{center}
+    Top: Normalized tilt for selected episodes from the early stages
+    of the Pu`u `\=O`\=o–Kupaianaha eruption of K\={\i}lauea
+    volcano. Episodes associated to well-defined deflationary tilt
+    records at both Pu`u `\=O`\=o and K\={\i}lauea's summit are shown. Middle: Eruption rate (height of bar) and duration (width of bar) for each episode. Bottom: Observed time delay between the end of fountaining at Pu`u `\=O`\=o and the beginning of re-inflation at the summit.
+  \end{center}
+\end{textblock}
+
+% \begin{textblock}{7.4}(0.3,10.5)
+% \resizebox{7\TPHorizModule}{!}{\includegraphics{figures/comp_cf.eps}}\\
+% \resizebox{7\TPHorizModule}{!}{\includegraphics{figures/cf_pres.eps}}\\
+% Pressure time series are used as sources of seismic waves, propagated
+% into the host rock by means of Green's functions
+% integration. Resulting seismic signals have the highest energy content
+% in the frequency range 10$^{-4}$ to 10$^{-2}$ Hz.\\
+% \resizebox{7\TPHorizModule}{!}{\includegraphics{figures/cf_disp.eps}}
+% \end{textblock}
+
+% \begin{textblock}{3}(8,8)
+% \LHead{Etna}
+% \vspace{1cm}\\
+% \resizebox{3\TPHorizModule}{!}{\includegraphics{figures/etna.eps}}
+% \end{textblock}
+
+% \begin{textblock}{4}(11.2,9)
+%   \begin{center}
+%     The plumbing system at Mount Etna volcano is more complicated, as
+%     it results from inversion of gravity anomaly and tremor
+%     signals. The system is also much smaller than the Phlaegrean
+%     one. The magmas in the upper and lower part of the system share a
+%     similar composition, both being basaltic, but have a different
+%     volatiles content. The deeper, lighter magma rises inside the
+%     reservoir and mixes with the resident one.
+%   \end{center}
+% \end{textblock}
+
+% \begin{textblock}{7.4}(8,12.3)
+% \resizebox{7\TPHorizModule}{!}{\includegraphics{figures/comp_etna.eps}}\\
+% Ground displacement has been calculated both analytically and numerically, taking into
+% account the real topography of the volcano and realistic rock
+% properties. Space-time patterns of ground displacement are deformed by
+% inhomogeneities of the medium. 
+% \vspace{0.5cm}\\
+% \resizebox{7\TPHorizModule}{!}{\includegraphics{figures/etna_disp.eps}}\\
+% \end{textblock}
+
+% \begin{textblock}{7.4}(0.3,23)
+% \LHead{Conclusions}
+% \begin{itemize}
+% \item new magma entering shallow chambers rapidly mixes up with the resident magma and looses its identity, over the time scale of hours
+% \item the evolution of pressure can be very complex, with regions of the magmatic system undergoing overall pressure decrease or increase
+% \item pressure oscillations emerge, having periods from tens of seconds to hours and amplitude decreasing with increasing oscillation frequency
+% \item ground oscillations with periods of tens to hundreds of seconds (ULP) emerge as diagnostic of magma convection and mixing in magmatic reservoirs
+% \end{itemize}
+% \end{textblock}
+
+% \begin{textblock}{7.4}(8,22.8)
+% \resizebox{7\TPHorizModule}{!}{\includegraphics{figures/conclusion.eps}}\\
+% \end{textblock}
+
+% % % Place the group logo at the bottom left - visually this balances
+% % % well with the University logo at the top right. 
+% % \begin{textblock}{3}(0.1,22)
+% %   \begin{center}
+% %     Another logo here
+% % %\resizebox{1.5\TPHorizModule}{!}{\includegraphics{/usr/local/share/images/AandA.epsf}}
+% % \color{red}\\Astronomy and Astrophysics Group\\Department of Physics and
+% %   Astronomy\\University of Glasgow
+% %   \end{center}
+% % \end{textblock}
+
+\end{document}
+

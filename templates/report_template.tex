@@ -1,0 +1,82 @@
+\documentclass[fleqn,11pt]{article}
+\setlength{\parindent}{0em}
+
+\usepackage[exponent-product=\cdot]{siunitx}
+\usepackage{natbib}
+\usepackage{authblk}  % for affiliations
+\usepackage{listings}
+\usepackage[usenames]{color}
+\usepackage[T1]{fontenc}
+\usepackage[Q=yes]{examplep}
+\usepackage{booktabs} % linee orizzontali in tabelle
+\usepackage{ctable}   % tabelle con note, includes booktabs
+\usepackage[usenames,dvipsnames]{pstricks}  % latexdraw
+\usepackage{epsfig}                         %   
+\usepackage{pst-grad} % For gradients       %
+\usepackage{pst-plot} % For axes            % latexdraw
+\usepackage{graphicx}
+\usepackage{import}   % when inputting external files, use relative
+                      % path for nested inclusions
+\usepackage{amsthm}   % theorems
+\usepackage{amsmath}
+\usepackage[makeroom]{cancel}   % crossed-out maths
+\usepackage{tikz}
+
+\makeatletter
+% macro to hold a list of base directories where to look for input
+% files
+\def\input@path{{/home/montagna/TOURO/science/my_science/gales/versions/}}
+
+% flush right within align environment
+\newcommand{\pushright}[1]{\ifmeasuring@#1\else\omit\hfill$\displaystyle#1$\fi\ignorespaces}
+\makeatother
+
+% more than one programming language with listings:
+\lstnewenvironment{CPP}
+  {\lstset{language=C++,basicstyle=\ttfamily\small,frame=none}}
+  {}
+
+\lstnewenvironment{matlab}
+  {\lstset{language=MATLAB,basicstyle=\small\ttfamily}}
+  {}
+% use as \begin{CPP} ... \end{cpp}
+
+\begin{document}
+\bibliographystyle{plainnat} 
+\bibpunct{(}{)}{;}{a}{,}{,}
+\lstset{language=MATLAB,basicstyle=\small\ttfamily}
+
+\title{}
+\author{Chiara P. Montagna}
+\affil{Istituto Nazionale di Geofisica e Vulcanologia, Pisa}
+\date{\today}
+\maketitle
+
+\setcounter{tocdepth}{2} % depth up to which contents are listed in toc
+\tableofcontents
+
+\input{/home/montagna/elastic_dikes/kilauea/DI_events/plan_input.tex}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{setup+different_geometries.eps} % needs \usepackage{graphicx}
+  \caption{Initial conditions for the numerical simulations of the
+    magmatic system. On the left, the whole domain is showm,
+    indicating the two magmatic end-members. On the right, the upper
+    portion of the domain shows the three different geometries
+    explored.}
+  \label{setup+different_geometries}
+\end{figure}
+
+% \section{Track-keeping}
+% \begin{itemize}
+% \item [Jan 3, 2014] 
+% \end{itemize}
+
+% \section{TODO}
+% \begin{enumerate}
+% \item
+% \end{enumerate}
+
+\bibliography{/home/montagna/TOURO/science/bibliography/biblio} 
+\end{document}

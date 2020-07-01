@@ -1,0 +1,65 @@
+\documentclass[fleqn,11pt]{article}
+\setlength{\parindent}{0em}
+
+\usepackage[normalem]{ulem} % provides underlining
+\usepackage[dvips]{graphics}
+\usepackage[dvips]{graphicx}
+\usepackage{epsfig}
+\usepackage{listings}
+\usepackage{booktabs}
+%\usepackage{threeparttable}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage[usenames]{color}
+\usepackage{rotating}
+%\usepackage[italian]{babel}
+\usepackage[merge]{natbib}  % merge to use pre and post citation keys
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[cdot,amssymb]{SIunits}
+\usepackage[detect-all]{siunitx}    % better than the above
+\usepackage{ctable}
+\usepackage{enumerate}
+\usepackage{cancel}
+\usepackage{esint}   % alternate integral symbols
+\usepackage{polynom}
+\usepackage{wasysym} % symbols
+\usepackage{chngcntr} % change counter resetting
+\usepackage{authblk}
+
+%\definecolor{darkgreen}{rgb}{0, .6, 0}
+
+% Cauchy principal value integral
+\newlength{\intwidth}
+\DeclareRobustCommand{\fpint}[2]
+   {\mathop{%
+      \text{%
+        \settowidth{\intwidth}{$\int$}%
+        \makebox[0pt][l]{\makebox[\intwidth]{$-$}}%
+        $\int_{#1}^{#2}$}}}
+ 
+\begin{document}
+\lstset{language=MATLAB,basicstyle=\small\ttfamily}
+\bibliographystyle{plainnat} 
+\bibpunct{(}{)}{;}{a}{,}{,}
+
+\title{\huge\bf DI events}
+\author{Chiara P. Montagna}
+\affil{Istituto Nazionale di Geofisica e Vulcanologia, Pisa}
+\date{\today}
+\maketitle
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{setup+different_geometries.eps} % needs \usepackage{graphicx}
+  \caption{Initial conditions for the numerical simulations of the
+    magmatic system. On the left, the whole domain is showm,
+    indicating the two magmatic end-members. On the right, the upper
+    portion of the domain shows the three different geometries
+    explored.}
+  \label{setup+different_geometries}
+\end{figure}
+
+\bibliography{/home/montagna/TOURO/science/bibliography/biblio} 
+\end{document} 

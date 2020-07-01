@@ -1,0 +1,68 @@
+\documentclass[authoryear,preprint,review,12pt,dvips]{article}
+
+\usepackage{amssymb}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{lscape}
+\usepackage{tabularx}
+\usepackage[tableposition=top]{caption}
+\usepackage{rotating} 
+\usepackage{multirow}
+\usepackage{booktabs}   % nicer horizontal lines
+\usepackage{array}      % needed by tabularx; adjust row height in tables
+\usepackage{longtable}  % tables split on multiple pages
+\usepackage[cm]{fullpage} % smaller margins
+\usepackage{adjustbox}    % center table if it is wider than textwidth
+
+\renewcommand\floatpagefraction{.9}
+\renewcommand\topfraction{.9}
+\renewcommand\bottomfraction{.9}
+\renewcommand\textfraction{.1}   
+\setcounter{totalnumber}{50}
+\setcounter{topnumber}{50}
+\setcounter{bottomnumber}{50}
+
+\captionsetup[table]{labelfont=bf,labelsep=space,singlelinecheck=off}
+
+\begin{document}
+
+\thispagestyle{empty}
+
+\begin{table}[ht]
+% substitute table with sidewaystable (needs rotating package) for
+% landscape oriented tables. latex+dvipdf to obtain result
+\fontsize{3mm}{4mm}\selectfont{
+\renewcommand{\tablename}{\fontsize{3mm}{4mm}\selectfont{Table}}
+\centering
+\caption{\fontsize{3mm}{4mm}\selectfont{Symbols used in this paper
+and their units with description.}}
+\label{symbols1}
+\begin{tabular}{l  l  l}
+\hline
+
+Symbol & Unit & Description\\
+
+\hline
+$N_v$ & m$^{-3}$ & Bubble number density per unit volume of melt\\
+
+\hline
+
+\end{tabular}
+}
+\end{table}
+
+\begin{longtable}{c p{0.2\textwidth} p{0.2\textwidth}
+    p{0.2\textwidth} % splits on pages, does not work with sidewaystable
+  c p{0.2\textwidth}}
+\toprule
+
+No & Authors & Institution(s) & Title & O/P & Notes \\
+
+\midrule
+40 & A Namiki & U Tokyo & Intermittent and efficient outgassing by
+the upward propagation of film ruptures in
+a bubbly magma & O & analog modeling \\
+\bottomrule
+
+\end{longtable}
+
+\end{document}
