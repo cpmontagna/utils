@@ -12,3 +12,6 @@ Scripts to analyze gales (https://gitlab.com/dgmaths9/gales) outputs
 
 ## templates
 Mostly LaTeX templates for common document types
+
+## biblio.bib
+My LaTeX bibliography file
