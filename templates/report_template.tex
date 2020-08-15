@@ -15,6 +15,7 @@
 \usepackage{pst-grad} % For gradients       %
 \usepackage{pst-plot} % For axes            % latexdraw
 \usepackage{graphicx}
+\graphicspath{{magmaFoam/BubbleRP/}}
 \usepackage{import}   % when inputting external files, use relative
                       % path for nested inclusions
 \usepackage{amsthm}   % theorems
@@ -23,9 +24,6 @@
 \usepackage{tikz}
 
 \makeatletter
-% macro to hold a list of base directories where to look for input
-% files
-\def\input@path{{/home/montagna/TOURO/science/my_science/gales/versions/}}
 
 % flush right within align environment
 \newcommand{\pushright}[1]{\ifmeasuring@#1\else\omit\hfill$\displaystyle#1$\fi\ignorespaces}
