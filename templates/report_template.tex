@@ -30,6 +30,9 @@
 \newcommand{\pushright}[1]{\ifmeasuring@#1\else\omit\hfill$\displaystyle#1$\fi\ignorespaces}
 \makeatother
 
+% chemical formulas
+\newcommand*\chem[1]{\ensuremath{\mathrm{#1}}}
+
 % more than one programming language with listings:
 \lstnewenvironment{CPP}
   {\lstset{language=C++,basicstyle=\ttfamily\small,frame=none}}
