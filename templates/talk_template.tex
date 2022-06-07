@@ -1,161 +1,1271 @@
-\documentclass[compress,green]{beamer}
+\documentclass{beamer}
+
+\usepackage{graphicx}
+\usepackage{media9}
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{colortbl}
+\usepackage{siunitx}
+
+\usefonttheme[onlymath]{serif}
+
+\definecolor{my_block}{rgb}{0.95,0.90,0.90}
+
+\newsavebox{\mybox}
+
 \mode<presentation>
+{
+  \usetheme{CambridgeUS}
 
-%\usepackage{subfigure}
-%\usepackage{multicol}
-%\usepackage{amsmath}
-%\usepackage{epsfig}
-%\usepackage{graphicx}
-%\usepackage[all,knot]{xy}
-%\xyoption{arc}
-%\usepackage{url}
-\usepackage{multimedia}
-\usepackage[italian]{babel}
-%\usepackage{movie15}
-%\usepackage{hyperref}
+  \setbeamercovered{transparent}
+  \setbeamercolor{block body}{bg=my_block}
+}
 
-\usetheme{Madrid} 
-\usecolortheme{seagull}
-\useinnertheme{rounded}
 
-\definecolor{Red}{rgb}{1,0,0}
-\definecolor{Blue}{rgb}{0,0,1}
-%\definecolor{Green}{rgb}{0,1,0}
-\definecolor{magenta}{rgb}{1,0,.6}
-\definecolor{lightblue}{rgb}{0,.5,1}
-\definecolor{lightred}{rgb}{1,0.2,0.2}
-%\definecolor{lightpurple}{rgb}{.6,.4,1}
-%\definecolor{gold}{rgb}{.6,.5,0}
-%\definecolor{orange}{rgb}{1,0.4,0}
-%\definecolor{hotpink}{rgb}{1,0,0.5}
-%\definecolor{newcolor2}{rgb}{.5,.3,.5}
-%\definecolor{newcolor}{rgb}{0,.3,1}
-%\definecolor{newcolor3}{rgb}{1,0,.35}
-%\definecolor{darkgreen1}{rgb}{0, .35, 0}
-%\definecolor{darkgreen}{rgb}{0, .6, 0}
-\definecolor{darkred}{rgb}{.75,0,0}
-%\xdefinecolor{olive}{cmyk}{0.64,0,0.95,0.4}
-%\xdefinecolor{purpleish}{cmyk}{0.75,0.75,0,0}
+\title[Runnig OpenFOAM]
+{Running OpenFOAM: simple simulation setup}
 
-\setbeamertemplate{footline}{}
+\author[] 
+{M.~de' Michieli Vitturi \and \textbf{C.P. Montagna}}
 
-\title{\textcolor{darkred}{A forward modeling approach to relate geophysical observables at active volcanoes to deep magma dynamics.}}
-\author{\underline{C. P. Montagna}$^1$, A. Longo$^1$, P. Papale$^1$, M. Vassalli$^2$, G. Saccorotti$^1$, A. Cassioli$^3$}
-\institute{1. Istituto Nazionale di Geofisica e Vulcanologia, Pisa, Italy\\
-2. School of Geological Sciences, University College Dublin, Ireland\\
-3. Dipartimento di Sistemi e Informatica, Università di Firenze, Italy}
-\date[AGU Fall Meeting 2010]{AGU Fall Meeting 2010 \\ San Francisco \\ December 17, 2010}
+
+\institute[]
+{
+  Istituto Nazionale di Geofisica e Vulcanologia, Italy \\
+}
+
+\date{January 14, 2020}
+
+\subject{Talks}
+
+\AtBeginSubsection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
 
 \begin{document}
 
-\frame{
+\begin{frame}
   \titlepage
+\end{frame}
+
+
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+\section{Running OpenFOAM}
+
+\subsection{Applications}
+
+
+\begin{frame}{Applications}
+
+OpenFOAM includes over 80 solver applications that simulate specific problems in engineering mechanics and over 170 utility applications that perform pre- and post-processing tasks, e.g. meshing, data visualisation, etc.
+
+
+Applications developed in OpenFOAM are classified as:
+
+\begin{itemize}
+\item \textcolor{red}{Utilities}. Toolsets for performing pre- and post-processing tasks: e.g. meshing, case setup, solution monitoring, data export
+\item \textcolor{red}{Solvers}. Obtain a numerical solution for a specific system of PDEs. Most solvers are for tackling fluid related problems using the Finite Volume approach.
+\end{itemize}
+
+\begin{block}
+
+{\small Each application provides specific capabilities: for example the application called \texttt{blockMesh} is used to generate meshes from an input file provided by the user, while another application called \texttt{icoFoam} solves the Navier-Stokes equations for an incompressible laminar flow.}
+\end{block}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Utilities}
+
+In \emph{\$FOAM\_APP/utilities} (or \emph{\$FOAM\_UTILITIES}) you find the source code for the utilities arranged in the following categories:
+
+\begin{scriptsize}
+\begin{verbatim}
+doc           miscellaneous         postProcessing  surface 
+finiteArea    parallelProcessing    preProcessing   thermophysical
+mesh
+\end{verbatim}
+\end{scriptsize}
+
+\begin{block}{Directories}
+With the installation of OpenFOAM some directories (starting with \emph{\$FOAM\_}) are added to your path. If the user wishes to run a range of examples cases, it is reccomended to copy the tutorials directory into their local run directory. They can be easily copied by typing:
+\begin{small}
+\begin{verbatim}
+mkdir -p $FOAM_RUN
+cp -r $FOAM_TUTORIALS $FOAM_RUN
+\end{verbatim}
+\end{small}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]{Utilities}{Mesh generation}
+
+In \emph{\$FOAM\_UTILITIES/mesh/generation/} you find 
+
+\begin{verbatim}
+Allwmake      blockMesh  extrude2DMesh  snappyHexMesh
+PDRblockMesh  extrude    foamyMesh
+\end{verbatim}
+
+Inside each directory you find a *.C file with the same name as the directory. This is the main file, where you will find the top-level source code and a short description of the utility (hopefully). 
+
+For \textbf{blockMesh}:\\[0.2cm]
+
+\begin{lrbox}{\mybox}
+  \begin{minipage}{28em}
+\begin{small}
+\begin{verbatim}
+A multi-block mesh generator.
+
+Uses the block mesh description found in 
+  - \c system/blockMeshDict
+  - \c system/\<region\>/blockMeshDict...
+\end{verbatim}
+\end{small}
+  \end{minipage}
+\end{lrbox}
+
+\fbox{\usebox\mybox}
+
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Solvers}
+
+In \emph{\$FOAM\_APP/solvers} (or \emph{\$FOAM\_SOLVERS}) you find the source code for the solvers arranged according to:
+\begin{tiny}
+\begin{verbatim}
+DNS         compressible     electromagnetics  heatTransfer    multiphase
+basic       discreteMethods  financial         incompressible  stressAnalysis
+combustion  doc              finiteArea        lagrangian
+\end{verbatim}
+\end{tiny}
+
+In \emph{\$FOAM\_SOLVERS/incompressible} you find the solver source code directories:
+\begin{small}
+\begin{verbatim}
+adjointOptimisationFoam       shallowWaterFoam
+adjointShapeOptimizationFoam  nonNewtonianIcoFoam         
+simpleFoam                    boundaryFoam                  
+pimpleFoam                    icoFoam                       
+pisoFoam
+\end{verbatim}
+\end{small}
+
+\end{frame}
+
+\begin{frame}[fragile]{Solvers}{IcoFoam}
+\begin{itemize}
+\item Inside each solver directory you find a *.C file with the same name of the directory. This is the main file, where you will typically find the top-level source code and a short description of the solver.
+
+\item For \textbf{icoFoam}:\\[0.2cm]
+
+\begin{lrbox}{\mybox}
+  \begin{minipage}{29em}
+\begin{small}
+\begin{verbatim}
+Transient solver for incompressible, laminar flow of 
+Newtonian fluids.
+\end{verbatim}
+\end{small}
+  \end{minipage}
+\end{lrbox}
+
+\fbox{\usebox\mybox}
+\vspace{0.1cm}
+\item For a more complete description, you can examine the source code.
+\end{itemize}
+
+\begin{block}
+
+{\small Additional source code can be found in *.H files. These are not headers files in the traditional sense, but rather a way to organize procedural sections of the code by using ``\texttt{\#include}'' statements.}
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]{IcoFoam}{Top-level code}
+For the solver IcoFoam, in the top-level code we can find:
+
+$$
+\frac{\partial\mathbf{U}}{\partial t} + \nabla\cdot \mathbf{U} \mathbf{U} - \nabla\cdot \mu\nabla \mathbf{U} = -\nabla  p
+$$
+
+is represented by the code:\\[0.4cm]
+
+\begin{lrbox}{\mybox}
+  \begin{minipage}{20em}
+\begin{small}
+\begin{verbatim}
+   fvVectorMatrix UEqn
+   (
+       fvm::ddt(U)
+     + fvm::div(phi, U)
+     - fvm::laplacian(nu, U)
+   );
+   if (piso.momentumPredictor())
+   {
+       solve(UEqn == -fvc::grad(p));
+   }
+\end{verbatim}
+\end{small}
+  \end{minipage}
+\end{lrbox}
+
+\fbox{\usebox\mybox}
+
+\end{frame}
+
+\section{Tutorial}
+\subsection{Cavity case}
+
+\begin{frame}{Cavity test}{icoFoam}
+We will use the \textcolor{red}{icoFoam} cavity tutorial as a general example of how to setup and run applications in OpenFOAM.
+
+The geometry is shown in the figure, in which all the boundaries of the square are walls. The top wall moves in the x-direction at a speed of \SI{1}{\m\per\s} while the other 3 are stationary. 
+\vspace{-0.2cm}
+\begin{columns}[c]
+
+\column{4.0cm} 
+
+We will copy the icoFoam cavity tutorial to our run directory and run it. Then we will check what we did.
+
+
+
+\column{7.5cm} 
+\begin{center}\includegraphics[width=6.0cm]{./figures/domain.pdf}\end{center}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]{Cavity test}{icoFoam}
+If you have not copied all the tutorials in the \texttt{\$FOAM\_RUN} directory, start by copying the cavity tutorial from 
+\begin{small}
+\texttt{\$FOAM\_TUTORIALS/icoFoam} 
+\end{small}
+to your run directory 
+\begin{small}
+\texttt{\$FOAM\_RUN}:
+\end{small}
+
+\begin{footnotesize}
+\begin{verbatim}
+cd $FOAM_RUN
+mkdir tutorials
+cd tutorials
+mkdir incompressible
+cd incompressible
+mkdir -p icoFoam/cavity
+cd icoFoam/cavity
+cp -r $FOAM_TUTORIALS/incompressible/icoFoam/cavity/cavity .
+\end{verbatim}
+\end{footnotesize}
+
+Inside the \texttt{cavity} directory you will find the \texttt{0}, \texttt{constant} and \texttt{system} folders populated with the files needed for running a basic case.
+
+
+\end{frame}
+
+\begin{frame}{Cavity case}{Running the case}
+
+\begin{itemize}
+\item The first thing to do is to \textcolor{red}{create a mesh} (grid). The mesh is defined by a dictionary that is read by the blockMesh utility. 
+
+Create the mesh with another utility by typing:
+
+\texttt{blockMesh}
+
+You have now generated the mesh in OpenFOAM format.
+\item \textcolor{red}{Check the mesh} by typing:
+
+\texttt{checkMesh}
+
+You see the mesh size, the geometrical size and some mesh checks.
+\item This is a case for the icoFoam solver, so run
+
+\texttt{icoFoam >\& log\&}
+
+You now \textcolor{red}{run the simulation} in background using the settings in the case, and
+forward the output to the log file, where the Courant numbers and the residuals
+are shown.
+
+\end{itemize}
+
+\end{frame}
+
+\subsection{Case structure}
+
+\begin{frame}{Cavity case}
+We will have a look at what we did when running the cavity tutorial by looking at the case folders and files.
+
+\begin{columns}[c]
+
+\column{7.7cm} 
+\begin{itemize}
+\item The case directory originally contains the following sub-directories:
+\begin{itemize}
+\item[-] \textcolor{red}{0},
+\item[-] \textcolor{red}{constant},
+\item[-] \textcolor{red}{system}.
+\end{itemize}
+After our run it also contains the output 0.1, 0.2, 0.3, 0.4, 0.5, and log.
+\item The 0* time directories contain the values of all the variables at those time steps. 
+\item The \textcolor{red}{0} directory is thus the directory containing the initial condition. 
+\end{itemize}
+figures
+\column{4.0cm} 
+\begin{center}\includegraphics[width=2.9cm]{./figures/case_structure.pdf}\end{center}
+\end{columns}
+
+
+\end{frame}
+
+\begin{frame}{Cavity case}
+\vspace{-0.3cm}
+\begin{columns}[c]
+
+\column{7.0cm} 
+\begin{itemize}
+\item The \textcolor{red}{constant} directory contains the polymesh folder where all the elements of the grid are defined (points, cells, faces,...) and a dictionary for the kinematic viscosity transportProperties.
+\item The \textcolor{red}{system} directory contains settings for the run in the file controlDict, discretization schemes in the file fvSchemes,
+solution procedures in the file fvSolution, and a dictionary for the BlockMesh utility.
+\end{itemize}
+
+\column{4.0cm} 
+\begin{center}\includegraphics[width=2.8cm]{./figures/case_structure.pdf}\end{center}
+\end{columns}
+
+\vspace{0.3cm}
+
+The \texttt{icoFoam} solver reads these files in the case directory and runs the case
+according to those settings.
+
+\end{frame}
+
+\subsection{Pre processing}
+
+\begin{frame}{Mesh generation}{blockMesh}
+
+The cavity domain consists of a square of side length d = 0.1 m in the x-y plane.
+A uniform mesh of 20 by 20 cells will be used initially.\\[0.3cm]
+
+The mesh generator supplied with OpenFOAM, \textcolor{red}{blockMesh}, generates meshes from a description specified in an input dictionary, \textcolor{red}{blockMeshDict} located in the \texttt{system} directory for a given case. 
+
+\begin{block}
+
+\textcolor{red}{Remark}. OpenFOAM always operates in a 3 dimensional Cartesian coordinate system and all
+geometries are generated in 3 dimensions. OpenFOAM solves the case in 3 dimensions
+by default but can be instructed to solve in 2 dimensions by specifying a \emph{special} empty boundary condition on boundaries normal to the (3rd) dimension for which no solution is required.
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]{Mesh generation}{blockMeshDict}
+
+The \textcolor{red}{blockMeshDict} dictionary first of all contains a list of vertices:
+\vspace{-0.4cm}
+\begin{columns}[c]
+
+\column{6.0cm} 
+\begin{small}
+\begin{verbatim}
+scale 0.1;
+vertices
+(
+(0 0 0)
+(1 0 0)
+(1 1 0)
+(0 1 0)
+(0 0 0.1)
+(1 0 0.1)
+(1 1 0.1)
+(0 1 0.1)
+);
+\end{verbatim}
+\end{small}
+
+
+\column{5.0cm} 
+\begin{center}\includegraphics[width=4.5cm]{./figures/vertexes.pdf}\end{center}
+\end{columns}
+\vspace{0.2cm}
+\begin{itemize}
+\item \texttt{scale 0.1;} multiplies the coordinates by 0.1 (dimensions are in SI - thus meters).
+\item Then there are the eight vertexes defining a 3D block. 
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Mesh generation}{blockMeshDict}
+
+The \textcolor{red}{blockMeshDict} dictionary secondly defines a block and the mesh from the
+vertices:
+
+\begin{verbatim}
+blocks
+(
+hex (0 1 2 3 4 5 6 7) (20 20 1) simpleGrading (1 1 1)
+);
+\end{verbatim}
+\begin{itemize}
+\item \texttt{hex} means that it is a structured hexahedral block.
+\item \texttt{(0 1 2 3 4 5 6 7)} are the vertexes used to define the block. The order of these
+is important - they should form a right-hand system:
+\begin{itemize}
+\item[-] \textbf{0-1} is the first direction $\mathbf{i}$ for number of cells and grading purposes;
+\item[-] \textbf{1-2} is the second direction $\mathbf{j}$ for the number of cells and grading purpose; 
+\item[-] last direction $\mathbf{k}$ is found assuming a right-handed coordinate system.
+\end{itemize} 
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Mesh generation}{blockMeshDict}
+
+If, for example, you fix the origin of the axes in $7$, in a right-hand system you have to define the block as: 
+\begin{verbatim}
+blocks
+(
+hex (7 4 0 3 6 5 1 2) (20 1 20) simpleGrading (1 1 1)
+);
+\end{verbatim}
+and
+\begin{itemize}
+\item[-] \textbf{7-4} is the first direction $\mathbf{i}$ for number of cells and grading purposes;
+\item[-] \textbf{4-0} is the second direction $\mathbf{j}$ for the number of cells and grading purpose; 
+\item[-] last direction $\mathbf{k}$ is found assuming a right-handed coordinate system.
+\end{itemize} 
+
+ 
+
+\end{frame}
+
+\begin{frame}[fragile]{Mesh generation}{blockMeshDict}
+\begin{verbatim}
+blocks
+(
+hex (0 1 2 3 4 5 6 7) (20 20 1) simpleGrading (1 1 1)
+);
+\end{verbatim}
+
+\begin{itemize}
+\item \texttt{(20 20 1)} is the number of mesh cells in each direction x, y and z defined according to the right-hand system rule.
+\item \texttt{simpleGrading (1 1 1)} is the expansion ratio for each direction in the block, in this case equidistant. The numbers are the ratios between the end cells along three edges and allow the mesh to be graded, or refined, in specified directions. There are other grading schemes as well.
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}[fragile]{Mesh generation}{Patches}
+
+The blockMeshDict dictionary finally defines the boundaries of the domain, which is divided into patches.\\[0.2cm]
+\vspace{-0.1cm}
+\begin{columns}[c]
+\column{5.5cm} 
+
+\begin{lrbox}{\mybox}
+  \begin{minipage}{12em}
+\begin{scriptsize}
+\begin{verbatim}
+boundary
+(
+    movingWall
+    {
+        type wall;
+        faces
+        (
+            (3 7 6 2)
+        );
     }
+    fixedWalls
+    {
+        type wall;
+        faces
+        (
+            (0 4 7 3)
+            (2 6 5 1)
+\end{verbatim}
+\end{scriptsize}
+\end{minipage}
+\end{lrbox}
 
-\frame{
-\frametitle{Rationale}
-\begin{center}
-\textcolor{Red}{Mass movements} and associated \textcolor{Red}{stress changes} in volcanic systems translate into variations of geophysical quantities commonly measured at the surface: \\
-\uncover<2->{\textcolor{magenta}{seismicity, ground displacement} and \textcolor{magenta}{gravity changes}.}
-\uncover<3->{
-\begin{block}{Understanding signals at active volcanoes means gaining the capability to \lq\lq look into\rq\rq an active volcano:}
+\fbox{\usebox\mybox}
+
+
+\column{5.5cm} 
+
+\begin{lrbox}{\mybox}
+  \begin{minipage}{12em}
+\begin{scriptsize}
+\begin{verbatim}
+            (1 5 4 0)
+        );
+    }
+    frontAndBack
+    {
+        type empty;
+        faces
+        (
+            (0 3 2 1)
+            (4 5 6 7)
+        );
+    }
+);
+
+mergePatchPairs
+(
+);
+\end{verbatim}
+\end{scriptsize}
+\end{minipage}
+\end{lrbox}
+
+\fbox{\usebox\mybox}
+
+\end{columns}
+
+
+\end{frame}
+
+\begin{frame}[fragile]{Mesh generation}{Patches}
+
+Let's have a look at the \texttt{movingWall} patch:
+
+\begin{lrbox}{\mybox}
+  \begin{minipage}{12em}
+\begin{scriptsize}
+\begin{verbatim}
+    movingWall
+    {
+        type wall;
+        faces
+        (
+            (3 7 6 2)
+        );
+    }
+\end{verbatim}
+\end{scriptsize}
+\end{minipage}
+\end{lrbox}
+
+\fbox{\usebox\mybox}
+
+
+
 \begin{itemize}
-\item improvement of the knowledge on volcano physics;
-\item identification of the short-term precursors to eruptions.
+\item \texttt{movingWall} is the patch name.
+\item \texttt{type wall} is the type of the patch.
+\item \texttt{(0 4 7 3)} are the vertex defining the block face of the patch.
 \end{itemize}
+
+\begin{block}
+
+{\footnotesize The patch is defined by the faces of the block according to the list, which refers
+to the vertex numbers. \emph{The order of the vertex numbers is such that they are
+marched clock-wise when looking from inside the block}. This is important, and
+unfortunately \emph{checkMesh} will not find such problems!}
 \end{block}
-}
-\end{center}
-}
 
-\frame{
-\frametitle{Method}
-\begin{center}
-\begin{columns}
-\column{0.7\textwidth}
-\includegraphics[height=3.75cm]{../media/figures/dynamics.png}
-\column{0.3\textwidth}
-simulation of magma movements:\\ 
-fluid dynamical code \texttt{GALES} {\tiny(Longo et al. 2006)}
-\end{columns}
-\pause
-pressure variations resulting from magma motion are used as synthetic sources of ground displacement
-\pause
-\begin{columns}
-\column{0.6\textwidth}
-\includegraphics[height=3cm]{../media/figures/displacement.png}
-\column{0.4\textwidth}
-elastic wave propagation in rocks: \\
-\begin{itemize}
-\item analytical solutions in an homogeneous infinite medium
-\item elasto-dynamics code \texttt{ELM} {\tiny(O'Brien and Bean 2004)}
-\end{itemize}
-\end{columns}
-\end{center}
-}
+\end{frame}
 
-\frame{
-\frametitle{Simulated systems}
-\includegraphics[height=0.4\textheight]{../media/figures/cf_all.png}
-\pause
-\includegraphics[height=0.4\textheight]{../media/figures/e13.png}
-\pause
-\begin{block}{}
+\begin{frame}{Mesh generation}{blockMesh}
+
+The mesh is generated by running from the terminal the application \texttt{blockMesh} on the \texttt{blockMeshDict} file. From within
+the case directory, this is done simply by typing in the terminal:\\[0.2cm]
+
+\texttt{blockMesh}\\[0.2cm]
+
+The running status of blockMesh is reported in the terminal window. Any mistakes in the
+blockMeshDict file are picked up by blockMesh and the resulting error message directs
+the user to the line in the file where the problem occurred. There should be no error
+messages at this stage. 
+
+This will generate a set of mesh files in the \texttt{constant/polyMesh} folder which make up the basic definition of a computational mesh for OpenFOAM.
+
+\end{frame}
+
+
+\begin{frame}{Mesh generation}{blockMesh}
+
+
+To sum up, the blockMeshDict dictionary generates a block with:
+
+\begin{columns}[c]
+
+\column{6.0cm} 
+
 \begin{itemize}
-\item mingling magmas
-\item no crystals
-\item isothermal
-\item exsolution law: Papale et al. 2006
-\item viscosity: Giordano et al. 2008
+\item x y z dimensions 0.1 0.1 0.01
+\item 20x20x1 cells
+\item wall fixedWalls patch at three sides
+\item wall movingWall patch at one side
+\item empty frontAndBack patch at two sides
 \end{itemize}
+
+\column{5.0cm} 
+\begin{center}\includegraphics[width=4.5cm]{./figures/grid.pdf}\end{center}
+\end{columns}
+
+
+
+\begin{block}
+
+{The type empty tells OpenFOAM that it is a 2D case.}
 \end{block}
-}
 
-\frame{
-\frametitle{Magma dynamics: Campi Flegrei}
-\begin{columns}
-\column{0.5\textwidth}
-\movie{\includegraphics[width=0.9\textwidth]{../media/figures/comp0_all1.png}}{./comp_all1.avi}
-\column{0.5\textwidth}
-\movie{\includegraphics[width=0.9\textwidth]{../media/figures/comp0_all2.jpg}}{./comp_all2.avi}
+\end{frame}
+
+
+
+\begin{frame}{Post-processing tool}
+
+Before the case is run it is a good idea to view the mesh to check for any errors. The
+mesh is viewed in \textcolor{red}{ParaView}, the post-processing tool suggested by OpenFOAM. To
+automatically read the case into paraView, create a case file and start ParaView by typing in the terminal from within the case
+directory\\[0.3cm]
+
+\texttt{touch} \textit{case}\texttt{.foam} \\
+\texttt{paraView}\\[0.3cm]
+
+This launches the ParaView window. In the Pipeline Browser, the user
+can choose the case file to load. 
+
+\begin{block}
+
+\textcolor{red}{Remark}. Since this is a 2D case, it is recommended that \emph{Camera Parallel Projection} is selected in the Advanced options (click on the gear wheel) of the \emph{View (Render View)} panel (in the bottm-left \emph{Properties} panel).
+\end{block}
+\end{frame}
+
+\begin{frame}{ParaView}
+
+\begin{center}\includegraphics[width=11.5cm]{./figures/Screenshot.pdf}\end{center}
+
+\end{frame}
+
+\subsection{Initial and boundary conditions}
+
+
+\begin{frame}[fragile]{Initial and boundary conditions}
+
+The 0 directory contains the dimensions, the initial and boundary conditions
+for all primary variables, in this case p and U. Let us examine the file p:
+\vspace{-0.5cm}
+\begin{columns}[c]
+\column{7.0cm} 
+\begin{footnotesize}
+\begin{verbatim}
+dimensions      [0 2 -2 0 0 0 0];
+internalField   uniform 0;
+boundaryField
+{
+    movingWall
+    {
+        type            zeroGradient;
+    }
+    fixedWalls
+    {
+        type            zeroGradient;
+    }
+    frontAndBack
+    {
+        type            empty;
+    }
+}
+\end{verbatim}
+\end{footnotesize}
+\column{4.0cm} 
+\vspace{-0.2cm}
+\begin{center}\includegraphics[width=2.8cm]{./figures/case_structure_3.pdf}\end{center}
 \end{columns}
-}
 
-\frame{
-\frametitle{Pressure variations}
-\includegraphics[height=0.9\textheight]{../media/figures/deltap_all1.png}
-}
 
-\frame{
-\frametitle{Pressure variations - upper chamber}
-\begin{columns}
-\column{0.7\textwidth}
-\textcolor{Blue}{Horizontal} vs \textcolor{Red}{vertical} chamber
-\includegraphics[width=\textwidth]{../media/figures/deltap_cf.jpg}
-\column{0.3\textwidth}
-\includegraphics[height=0.4\textheight]{../media/figures/deltap_all1.jpg}\\
-\includegraphics[height=0.4\textheight]{../media/figures/deltap_all2.jpg}
+
+\end{frame}
+
+\begin{frame}{Initial and boundary conditions}
+\vspace{-0.2cm}
+\begin{itemize}
+\item \texttt{dimensions [0 2 -2 0 0 0 0];} states that the units of p, here kinematic pressure, is \si{\square\m\per\square\s}.
+\item \texttt{internalField uniform 0}; the internal field can be \texttt{uniform}, described by a single value, or \texttt{nonuniform}, where all the values of the field must be specified.
+\item The \texttt{boundaryField} sub-dictionary includes boundary conditions and data for all boundary patches. For the case cavity, all the patches consist of walls for which a \texttt{zeroGradient} boundary condition is given for \texttt{p}, meaning that \emph{the normal gradient of pressure is zero}.
+\item The \texttt{frontAndBack} patch is given \texttt{type empty;}, indicating that no solution is required in that direction since the case is 2D.
+\end{itemize}
+\vspace{-0.2cm}
+
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Initial and boundary conditions}
+
+Similarly, in the U file the inintial values and the boundary conditions for the velocity are set.
+\vspace{-0.3cm}
+\begin{columns}[c]
+\column{7.0cm} 
+\begin{footnotesize}
+\begin{verbatim}
+dimensions [0 1 -1 0 0 0 0];
+internalField uniform (0 0 0);
+boundaryField
+{ movingWall
+{
+type fixedValue;
+value uniform (1 0 0);
+}
+fixedWalls
+{
+type            noSlip;
+}
+frontAndBack
+{
+type empty;
+}}
+\end{verbatim}
+\end{footnotesize}
+\column{4.0cm} 
+\begin{center}\includegraphics[width=2.8cm]{./figures/case_structure_3.pdf}\end{center}
 \end{columns}
-}
 
-\frame{
-\frametitle{Ground deformation}
+
+
+\end{frame}
+
+\begin{frame}{Initial and boundary conditions}
+\vspace{-0.2cm}
+\begin{itemize}
+\item \texttt{dimensions [0 1 -1 0 0 0 0];} states that the dimension of U is \si{\m\per\s}.
+\item \texttt{internalField uniform (0 0 0)}; sets U to zero internally.
+\item \texttt{movingWall} is given the fixed value of Ux = \SI{1}{\m\per\s}:
+\texttt{type fixedValue:} \\
+\texttt{value           uniform (1 0 0);} \\
+\item \texttt{fixedWalls} are given a no slip boundary condition: \texttt{type NoSlip}, i.e. the velocity is set to 0.  
+\item The \texttt{frontAndBack} patch is given \texttt{type empty;}, indicating that no solution is required in that direction since the case is 2D.
+\end{itemize}
+\vspace{-0.2cm}
+\begin{block}
+
+\begin{small}
+\textcolor{red}{Remark}. OpenFOAM attaches dimensions to field data and physical properties and performs dimension checking on any tensor operation.
+The I/O format for a \texttt{dimensionSet} is 7 scalars delimited by square brackets where each of the values corresponds to the power of each of the base units of measurement listed here: Mass (kg), Length (m), Time (s), Temperature (K), Quantity (kgmol), Current (A), Luminous Intensity (cd).
+\end{small}
+\end{block}
+
+\end{frame}
+
+
+
+\subsection{Run and solver parameters}
+
+
+
+\begin{frame}{Run parameters}
+
+Dictionary files located in the \texttt{system} directory are mainly used for controlling solvers and utilities.
+In addition to blockMeshDict, the system directory for the cavity tutorial consists of three set-up files: controlDict, fvSchemes and fvSolution.
+
 \begin{columns}
-\column{0.5\textwidth}
+\column{7.0cm} 
+\begin{itemize}
+\item \textcolor{red}{controlDict} contains general instructions on how to run the case.
+\item \textcolor{red}{fvSchemes} contains instructions on which discretization schemes should be used for different terms in the equations.
+\item \textcolor{red}{fvSolution} contains algorithm specific settings and instructions on how to solve each discretized linear equation system.
+\end{itemize}
+\vspace{-0.2cm}
+\column{4.0cm} 
+\begin{center}\includegraphics[width=2.8cm]{./figures/case_structure_2.pdf}\end{center}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]{Solution procedure}
+The information related to the control of the solution procedure are read from the \textcolor{red}{controlDict} dictionary.\\[0.2cm]
+
+The controlDict dictionary consists of the following lines:
+\begin{columns}
+\column{5.5cm} 
+\begin{small}
+\begin{verbatim}
+application icoFoam;
+startFrom startTime;
+startTime 0;
+stopAt endTime;
+endTime 0.5;
+deltaT 0.005;
+writeControl timeStep;
+writeInterval 20;
+...
+\end{verbatim}
+\end{small}
+\column{6.0cm} 
+\begin{small}
+\begin{verbatim}
+...
+purgeWrite 0;
+writeFormat ascii;
+writePrecision 6;
+writeCompression off;
+timeFormat general;
+timePrecision 6;
+runTimeModifiable true;
+\end{verbatim}
+\end{small}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]{Solution procedure}
+
+\begin{itemize}
+\item \texttt{application icoFoam;} names the application the tutorial is set up for
+\item The following lines tell icoFoam to start at startTime=0, and stop at
+endTime=0.5, with a fixed time step deltaT=0.005:
+\begin{small}
+\begin{verbatim}
+startFrom startTime;
+startTime 0;
+stopAt endTime;
+endTime 0.5;
+deltaT 0.005;
+\end{verbatim}
+\end{small}
+\end{itemize}
+
+\begin{block}
+
+It is possible to use automatic adjustments of the time step in the controlDict. The user should specify \texttt{adjustTimeStep} to be \texttt{on} and the maximum Courant number. The upper limit on time step \texttt{maxDeltaT} can be set to a value that will not be exceeded in the simulation. 
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]{Solution procedure}
+
+\begin{itemize}
+\item The following lines tell icoFoam to write out results in separate directories
+(\texttt{purgeWrite 0;}) every 20 timeStep, and that they should be written in
+uncompressed ascii format with \texttt{writePrecision} 6. \texttt{timeFormat} and
+\texttt{timePrecision} are instructions for the names of the time directories.
+\begin{small}
+\begin{verbatim}
+writeControl timeStep;
+writeInterval 20;
+purgeWrite 0;
+writeFormat ascii;
+writePrecision 6;
+writeCompression uncompressed;
+timeFormat general;
+timePrecision 6;
+\end{verbatim}
+\end{small}
+\item \texttt{runTimeModifiable yes;} allows you to make modifications to the case while
+it is running.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Solver settings}{system/fvSchemes}
+
+The dictionary \texttt{fvSchemes} contains instructions on which discretization schemes should be used. The first part of the \texttt{fvSchemes} dictionary consists of the following lines:
+\begin{small}
+\begin{verbatim}
+ddtSchemes
+{
+    default         Euler;
+}
+\end{verbatim}
+\end{small}
+These lines define the temporal discretization scheme. The possible choices are: Euler, localEuler, CrankNicholson, backward, steadyState.
+
+\begin{block}
+
+{\small When specifying a time scheme it must be noted that an application designed for transient problems will not necessary run as steady-state and vice versa. For example the solution will not converge if steadyState is specified when running icoFoam.}
+\end{block}
+
+
+
+\end{frame}
+
+\begin{frame}[fragile]{Solver settings}{system/fvSchemes}
+
+The second block of the \texttt{fvSchemes} dictionary consists of the following lines:
+\begin{small}
+\begin{verbatim}
+gradSchemes
+{
+    default         Gauss linear;
+    grad(p)         Gauss linear;
+}
+\end{verbatim}
+\end{small}
+
+These \texttt{gradSchemes} sub-dictionary defines the discretization scheme for the gradient terms. The \texttt{Gauss} keyword specifies the standard finite volume discretization of Gaussian integration which requires the interpolation of values from cell centers to face centers. 
+
+Therefore, the Gauss entry must be followed by the choice of an interpolation scheme. In this case a linear interpolation is used.
+
+\end{frame}
+
+\begin{frame}[fragile]{Solver setting}{constant directory}
+Dictionary files located in the \texttt{constant} directory are mainly used for defining specific models settings and properties. The physical properties for the case are stored in dictionaries whose name are given the suffix \texttt{...Properties}. 
+
+For an icoFoam example, like the cavity example, the only dictionary is \texttt{transportProperties}.
+
+In this case the only entry of the dictionary is for the kinematic viscosity value. The keyword for the kinematic viscosity is nu, the phonetic label for the Greek symbol $\nu$.
+\begin{small}
+\begin{verbatim}
+nu   0.01;
+\end{verbatim}
+\end{small}
+
+
+Initially the case will be run with a Reynolds number of 10, where the Reynolds number is defined as: 
+\[
+  \mathrm{Re} = \frac{d|U|}{\nu} = \frac{\SI{0.1}{\metre}\cdot\SI{1}{\metre\per\second}}{\SI{0.01}{\pascal\second}}
+\]
+
+
+\end{frame}
+
+\subsection{Post-processing}
+
+\begin{frame}{Post-processing}{ParaFoam}
+\begin{itemize}
+\item As soon as results are written to time directories, they can be viewed using \texttt{paraView}.
+\item To prepare ParaView to display the data of interest, we must
+  first load the data at the required run time of 0.5 s. If the case
+  was run while ParaView was open, the output data in time directories
+  will not be automatically loaded within ParaView. To load the data
+  the user should click \textcolor{red}{Refresh Times} in the
+  \textcolor{red}{Properties} window. The time data will be loaded
+  into ParaView. 
+\item To view pressure, the user should open the
+  \textcolor{red}{Display} panel since it controls the visual
+  representation of the selected module. 
+\item In order to view the solution at t = 0.5s, the user can use the
+  \textcolor{red}{VCR Controls} or \textcolor{red}{Current Time
+    Controls} to change the current time to 0.5. 
+\end{itemize}
+
+
+\end{frame}
+
+
+\subsection{Cavity grade}
+\begin{frame}{Exercise 1}{Cavity grade}
+
+In the cavity case larger variations in velocity can be expected near
+a wall and so we can have a better solution if the mesh will be graded
+to be smaller in this region. By using the same number of cells,
+greater accuracy can be achieved without a significant increase in
+computational cost.
+
+This is shown in the cavityGrade tutorial.
+
+\vspace{-0.2cm}
 \begin{center}
-\textcolor{Blue}{Horizontal chamber}
-\includegraphics[height=0.4\textheight]{../media/figures/cf_all1_disp.png}\\
-\includegraphics[height=0.4\textheight]{../media/figures/cf_all1_spectra.png}
-\end{center}
-\column{0.5\textwidth}
-\begin{center}
-\textcolor{Red}{Vertical chamber}
-\includegraphics[height=0.4\textheight]{../media/figures/cf_all2_disp.jpg}\\
-\includegraphics[height=0.4\textheight]{../media/figures/cf_all2_spectra.jpg}
-\end{center}
+  \includegraphics[width=5.0cm]{./figures/cavity_grade.pdf}
+\end{center} 
+
+\end{frame}
+
+\begin{frame}{Mesh generation}{Multiple blocks}
+
+A mesh can be created using more than 1 block. In such circumstances,
+the mesh is created as has been described in the previous slides. The
+faces that form the connection should simply be ignored form the
+patches list.  
+
+\texttt{blockMesh} then identifies that the faces do not form an
+external boundary and combines each collocated pair into a single
+internal face that connect cells form the two blocks. 
+
+\begin{itemize}
+\item The mesh now needs 4 blocks as different mesh grading is needed
+  on the left and right and top and bottom of the domain.  
+\item We want 10 cells in the x and y directions for each block and a
+  ratio between the largest and smallest cell is 2.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Mesh multi-grading}
+Using a single expansion ratio to describe mesh grading permits only one-way grading within a mesh block. In some cases, it reduces complexity and effort to be able to control grading within separate divisions of a single block, rather than have to define several blocks with one grading per block. For example, to mesh a channel with two opposing walls and grade the mesh towards the walls requires three regions: two with grading to the wall with one in the middle without grading.
+OpenFOAM includes multi-grading functionality that can divide a block in an given direction and apply different grading within each division. 
+\end{frame}
+
+\begin{frame}[fragile]{Mesh multi-grading}
+
+\begin{scriptsize}
+\begin{verbatim}
+blocks 
+( 
+    hex (0 1 2 3 4 5 6 7) (100 300 100) 
+    simpleGrading 
+    ( 
+        1                  // x-direction expansion ratio 
+        ( 
+            (0.2 0.3 4)    // 20% y-dir, 30% cells, expansion = 4 
+            (0.6 0.4 1)    // 60% y-dir, 40% cells, expansion = 1 
+            (0.2 0.3 0.25) // 20% y-dir, 30% cells, expansion = 0.25 (1/4) 
+        ) 
+        3                  // z-direction expansion ratio 
+    ) 
+);
+
+\end{verbatim}
+\end{scriptsize}
+
+\end{frame}
+
+
+\begin{frame}{Time step}{Courant number}
+To achieve temporal accuracy and numerical stability when running icoFoam, a Courant number of less than 1 is required. The Courant number is defined for one cell as:
+\[
+\mathrm{Co} = \frac{\delta t |U|}{\delta x}
+\]
+where $\delta t$ is the time step, $|U|$ is the magnitude of the velocity in the cell and $\delta x$ is the cell size in the direction of the velocity. 
+For the original cavity example cell size was $\delta x =\SI{0.005}{\m}$ and a maximum speed of $\SI{1}{\m/\s}$ was approached next to the lid. Therefore to achieve a Courant number less than or equal to 1 $\delta t$ was set equal to $0.005s$. For the graded case we need to decrease the time step to achieve a Courant number smaller that 1. 
+
+\end{frame}
+
+\section{Exercises}
+
+\begin{frame}{Exercise 2}{Restart Cavity}
+
+We want to continue the simulation, restarting from the latest output ($t=\SI{0.5}{\s}$), to find the solution at $t=\SI{1}{\s}$. We want also to have the time step adjusted by the solver accordingly to the solution values, with a maximum Courant number of 0.5.
+
+We have to modify the file \texttt{controlDict} in the \texttt{system} directory:
+
+\begin{itemize}
+\item modify the value of \texttt{startTime} and \texttt{endTime};
+\item add the keyword \texttt{adjustTimeStep} and set it to true;
+\item add the keyword \texttt{maxCo} and set it to 0.5.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Exercise 3}{Cavity grade with inflow}
+
+We want to use the same mesh of the cavity grade case with different boundary conditions. All the faces are closed walls except:
+\begin{itemize}
+\item \texttt{(0,9,12,3)} defined as an inlet with U=(1,0,0) and zero gradient for the pressure;
+\item \texttt{(5,8,17,14)} defined as an outlet with zero gradient for both the pressure and the velocity.
+\end{itemize}
+
+\begin{center}\includegraphics[width=4.5cm]{./figures/cavity_grade2}\end{center}
+
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Exercise 3 - Solution}{Cavity grade with inflow}
+
+First we modify the blockMeshDict dictionary changing the boundary names  (\verb|<case>/system/blockMeshDict|).\\[0.2cm]
+\vspace{-0.1cm}
+\begin{columns}[c]
+\column{3.0cm} 
+
+\begin{lrbox}{\mybox}
+  \begin{minipage}{8em}
+\begin{scriptsize}
+\begin{verbatim}
+boundary
+(
+  inletWall
+  {
+    type wall;
+    faces
+    (
+      (0 9 12 3)
+    );
+  }
+  outletWall
+  {
+    type wall;
+    faces
+    (
+      (5 8 17 14)
+    );
+  }
+\end{verbatim}
+\end{scriptsize}
+\end{minipage}
+\end{lrbox}
+
+\fbox{\usebox\mybox}
+
+
+\column{3.0cm} 
+
+\begin{lrbox}{\mybox}
+  \begin{minipage}{8em}
+    \vspace{0.2cm}
+\begin{scriptsize}
+\begin{verbatim}
+
+
+
+  fixedWalls
+  {
+    type wall;
+    faces
+    (
+      (3 12 15 6)
+      (0 1 10 9)
+      (1 2 11 10)
+      (2 5 14 11)
+      (6 15 16 7)
+      (7 16 17 8)
+    );
+  }
+
+
+\end{verbatim}
+\end{scriptsize}
+\end{minipage}
+\end{lrbox}
+
+\fbox{\usebox\mybox}
+
+
+\column{3.0cm} 
+
+\begin{lrbox}{\mybox}
+  \begin{minipage}{8em}
+\begin{scriptsize}
+\begin{verbatim}
+  frontAndBack
+  {
+    type empty;
+    faces
+    (
+      (0 3 4 1)
+      (1 4 5 2)
+      (3 6 7 4)
+      (4 7 8 5)
+      (9 10 13 12)
+      (10 11 14 13)
+      (12 13 16 15)
+      (13 14 17 16)
+    );
+  }
+);
+mergePatchPairs
+();
+\end{verbatim}
+\end{scriptsize}
+\end{minipage}
+\end{lrbox}
+
+\fbox{\usebox\mybox}
+
 \end{columns}
-rich in low frequencies
+
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Exercise 3 - Solution}{Cavity grade with inflow}
+
+Now we correct the boundary conditions for the pressure and the velocity (\verb|<case>/0/p|  on the left and \verb|<case>/0/U| on the right).\\[0.2cm]
+\vspace{-0.1cm}
+\begin{columns}[c]
+\column{5.5cm} 
+
+\begin{lrbox}{\mybox}
+  \begin{minipage}{14em}
+\begin{scriptsize}
+\begin{verbatim}
+boundaryField{
+    inletWall
+    {
+        type    zeroGradient;
+    }
+    outletWall
+    {
+        type    zeroGradient;
+    }
+    fixedWalls
+    {
+        type    zeroGradient;
+    }
+    frontAndBack
+    {
+        type    empty;
+    }
 }
+\end{verbatim}
+\end{scriptsize}
+\end{minipage}
+\end{lrbox}
+
+\fbox{\usebox\mybox}
+
+
+\column{5.5cm} 
+
+\begin{lrbox}{\mybox}
+  \begin{minipage}{14em}
+\begin{scriptsize}
+\begin{verbatim}
+boundaryField{
+    inletWall
+    {
+        type    fixedValue;
+        value   uniform (1 0 0);
+    }
+    outletWall
+    {
+        type    zeroGradient;
+    }
+    fixedWalls
+    {
+        type    noSlip;
+    }
+    frontAndBack{
+        type    empty; }
+}
+\end{verbatim}
+\end{scriptsize}
+\end{minipage}
+\end{lrbox}
+
+\fbox{\usebox\mybox}
+
+\end{columns}
+
+
+\end{frame}
+
+\begin{frame}[fragile]{Exercise 3 - Solution}{Cavity grade with inflow}
+Finally create the mesh with the command \verb|blockMesh|, execute \verb|icoFoam| and see the solution with ParaView.
+
+
+\begin{center}\includegraphics[width=7.8cm]{./figures/exercise3_solution_U_bis.png}\end{center}
+
+
+\end{frame}
+
+\begin{frame}[fragile]{Exercise 3 - Solution}{Cavity grade with inflow}
+Use  \verb|Gliph| filter with \verb|Scalar Mode vector| to produce the plot below.
+
+
+\begin{center}\includegraphics[width=7.8cm]{./figures/exercise3_solution_U.png}\end{center}
+
+
+\end{frame}
 
 \frame{
 \frametitle{Gravity changes}
@@ -182,71 +1292,11 @@ rich in low frequencies
 \end{center}
 }
 
-\frame{
-\frametitle{Ground displacement: low frequencies}
-\begin{columns}
-\column{0.5\textwidth}
-\begin{center}
-\includegraphics[width=\textwidth]{../media/figures/etna_disp.png}
-\vspace{0.5cm}
-highest energy content at \\
-periods around $100\unit{s}$
-\end{center}
-\column{0.5\textwidth}
-\begin{center}
-analytical solution:\\
-Green's function integration\\
-\vspace{1cm}
-\includegraphics[width=\textwidth]{../media/figures/etna_spectra.png}
-\end{center}
-\end{columns}
-}
-
-\frame{
-\frametitle{Ground displacement: seismic frequency range}
-\begin{columns}
-\column{0.5\textwidth}
-\vspace{0.5cm}
-\begin{center}
-maximum displacement in seismic range $\sim 10\unit{\mu m}$ \\
-\vspace{1cm}
-patterns of rock displacements\\
-deformed by heteorgeneities
-\end{center}
-\column{0.5\textwidth}
-\includegraphics[width=\textwidth]{../media/figures/etna_disp_elm.png}
-\end{columns}
-\includegraphics[width=\textwidth]{../media/figures/etna_snapshots.png}
-}
-
-\frame{
-\frametitle{Concluding remarks}
-\begin{center}
-\begin{itemize}
-\item new magma entering shallow chambers rapidly mixes up with the resident magma and looses its identity, over the time scale of hours
-\item the evolution of pressure can be very complex, with regions of the magmatic system undergoing overall pressure decrease or increase
-\item pressure oscillations emerge, having periods from tens of seconds to hours and amplitude decreasing with increasing oscillation frequency
-\item ground oscillations with periods of tens to hundreds of seconds (ULP) emerge as diagnostic of magma convection and mixing in magmatic reservoirs
-\end{itemize}
-\end{center}
-\pause
-\includegraphics[width=0.9\textwidth]{../media/figures/conclusion.png}
-}
-
-\frame{
-\begin{center}
-\huge{Thank you!}
-\end{center}
-}
-
 \end{document}
 
-================ schema ===================
-1. introduzione generale, dicendo anche che sempre ho magma buoyant che risale!!
-2. sistemi simulati: e13 [elm], all1 e all2 [oblate - prolate]
-3. differenti depth, size, composition, gas content
-4. ULP e tutto quanto
 
-=========== TODO =========================
-0. cambiare figure deltap - mel
-1. figure giuste spettri e ground disp all2 - mel
+
+
+
+
+
