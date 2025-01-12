@@ -8,6 +8,32 @@
 % \pgfsetlayers{bg,main}
 
 \begin{document}
+\pagenumbering{gobble}    % no page numbers
+
+% convecting chamber
+\begin{tikzpicture}[scale=0.1]
+    \draw (0,0) arc [start angle=0, end angle=360, x radius=60, y
+    radius=30];
+    \draw[<-] (-10,0) arc [start angle=0, end angle=230, x radius=20, y
+    radius=20];
+    \draw[->] (-70,-15) arc [start angle=-50, end angle=180, x radius=20, y
+    radius=20];
+\end{tikzpicture}
+
+% vertical rectangle with y axis and horizontal quota  
+\begin{tikzpicture}
+  \draw[->] (-0.5,-1) -- (-0.5,5) node[above] {$z$};
+  \draw (0,0) -- (0.3,0);
+  \draw (0.3,0) -- (0.3,4);
+  \draw (0.3,4) -- (0,4);
+  \draw (0,4) -- (0,0);
+  
+  \draw (-0.6,0) -- (-0.4,0) node[below left]
+  {\SI{-8}{\kilo\metre}};
+  \draw (-0.6,4) -- (-0.4,4) node[above left]
+  {\SI{-4}{\kilo\metre}\ };
+  \draw[<->] (0,-0.1) -- node[below]{\SI{300}{\metre}} (0.3,-0.1);
+\end{tikzpicture}
 
 \begin{tikzpicture}
   [scale=.8,auto=left,every node/.style={rectangle}]
